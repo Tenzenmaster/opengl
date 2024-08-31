@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 3.15...3.30)
+project(opengl)
+set(CMAKE_C_STANDARD 23)
+set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+
+find_package(OpenGL REQUIRED)
+add_subdirectory(lib/glfw)
+add_subdirectory(lib/cglm)
+add_library(glad lib/glad/src/glad.c)
+target_include_directories(glad PUBLIC lib/glad/include)
+add_library(stb_image lib/stb_image/stb_image.c)
+target_include_directories(stb_image PUBLIC lib/stb_image)
+
+add_executable(debug src/main.c)
+target_compile_options(debug PRIVATE -Wall -Wextra -Wconversion -Wsign-conversion)
+target_link_libraries(debug PRIVATE OpenGL::GL glfw cglm glad stb_image)
